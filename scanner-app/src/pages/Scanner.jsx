@@ -166,7 +166,7 @@ function ScannerPage() {
         })
         .eq('id', sessionId)
 
-      alert('Patrol completed successfully!')
+      alert('Patrouille erfolgreich abgeschlossen!')
       // Reset for new session
       setCurrentCheckpoint(1)
       setScannedCheckpoints([])
@@ -199,18 +199,18 @@ function ScannerPage() {
               className="cancel-button"
               onClick={() => setScanning(false)}
             >
-              Cancel
+              Abbrechen
             </button>
           </div>
         ) : (
           <div className="action-area">
             {showNoteInput ? (
               <div className="note-input-container">
-                <h3>Describe Issue</h3>
+                <h3>Problem beschreiben</h3>
                 <textarea
                   value={note}
                   onChange={(e) => setNote(e.target.value)}
-                  placeholder="Enter details..."
+                  placeholder="Details eingeben..."
                   rows={4}
                 />
                 <div className="button-group">
@@ -219,7 +219,7 @@ function ScannerPage() {
                     onClick={() => saveScan('not_ok', note)}
                     disabled={!note.trim()}
                   >
-                    Submit
+                    Senden
                   </button>
                   <button 
                     className="cancel-button-secondary"
@@ -229,7 +229,7 @@ function ScannerPage() {
                       setLastScan(null)
                     }}
                   >
-                    Cancel
+                    Abbrechen
                   </button>
                 </div>
               </div>
@@ -250,7 +250,7 @@ function ScannerPage() {
                     className="status-button not-ok"
                     onClick={() => handleStatusSelect('not_ok')}
                   >
-                    NOT OK
+                    NICHT OK
                   </button>
                 </div>
               </div>
@@ -264,7 +264,7 @@ function ScannerPage() {
                   className="scan-button"
                   onClick={() => setScanning(true)}
                 >
-                  SCAN QR
+                  QR SCANNEN
                 </button>
               </div>
             )}

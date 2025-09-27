@@ -54,6 +54,8 @@
   align-items: center;
   justify-content: center;
   padding: 10px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .scanner-box {
@@ -85,6 +87,8 @@
   align-items: center;
   justify-content: center;
   text-align: center;
+  margin: 0 auto;
+  position: relative;
 }
 
 .scan-prompt {

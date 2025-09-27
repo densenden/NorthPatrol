@@ -133,7 +133,7 @@ function Dashboard() {
             </button>
             <span className="user-email">{user?.primaryEmailAddress?.emailAddress}</span>
             <SignOutButton>
-              <button className="sign-out-btn">Sign Out</button>
+              <button className="sign-out-btn">Abmelden</button>
             </SignOutButton>
           </div>
         </div>
@@ -143,41 +143,41 @@ function Dashboard() {
         {/* Stats Cards */}
         <div className="stats-grid">
           <div className="stat-card">
-            <h3>Total Sessions</h3>
+            <h3>Gesamt Sessions</h3>
             <p className="stat-value">{stats.totalSessions}</p>
           </div>
           <div className="stat-card">
-            <h3>Completed</h3>
+            <h3>Abgeschlossen</h3>
             <p className="stat-value">{stats.completedSessions}</p>
           </div>
           <div className="stat-card">
-            <h3>With Issues</h3>
+            <h3>Mit Problemen</h3>
             <p className="stat-value issues">{stats.sessionsWithIssues}</p>
           </div>
           <div className="stat-card">
-            <h3>Checkpoints Scanned</h3>
+            <h3>Kontrollpunkte gescannt</h3>
             <p className="stat-value">{stats.totalCheckpoints}</p>
           </div>
         </div>
 
         {/* Sessions Table */}
         <div className="sessions-section">
-          <h2>Patrol Sessions</h2>
+          <h2>Patrouille Sessions</h2>
           {loading ? (
-            <p className="loading">Loading sessions...</p>
+            <p className="loading">Lade Sessions...</p>
           ) : (
             <div className="sessions-table">
               <table>
                 <thead>
                   <tr>
-                    <th>User</th>
-                    <th>Start Time</th>
-                    <th>End Time</th>
-                    <th>Duration</th>
+                    <th>Benutzer</th>
+                    <th>Startzeit</th>
+                    <th>Endzeit</th>
+                    <th>Dauer</th>
                     <th>Status</th>
-                    <th>Notes</th>
+                    <th>Notizen</th>
                     <th>Scans</th>
-                    <th>Action</th>
+                    <th>Aktion</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -189,12 +189,12 @@ function Dashboard() {
                       <td>{getSessionDuration(session.start_time, session.end_time)}</td>
                       <td>
                         <span className={`status ${session.complete ? 'complete' : 'incomplete'}`}>
-                          {session.complete ? 'Complete' : 'In Progress'}
+                          {session.complete ? 'Abgeschlossen' : 'In Bearbeitung'}
                         </span>
                       </td>
                       <td>
                         {session.has_notes && 
-                          <span className="has-notes-badge">Has Notes</span>
+                          <span className="has-notes-badge">Hat Notizen</span>
                         }
                       </td>
                       <td>{session.scans?.length || 0}/15</td>
@@ -203,7 +203,7 @@ function Dashboard() {
                           className="view-btn"
                           onClick={() => loadSessionDetails(session.id)}
                         >
-                          View Details
+                          Details anzeigen
                         </button>
                       </td>
                     </tr>
@@ -224,13 +224,13 @@ function Dashboard() {
               </div>
               
               <div className="session-info">
-                <p><strong>User:</strong> {selectedSession.users?.email}</p>
+                <p><strong>Benutzer:</strong> {selectedSession.users?.email}</p>
                 <p><strong>Start:</strong> {formatDate(selectedSession.start_time)}</p>
-                <p><strong>End:</strong> {formatDate(selectedSession.end_time)}</p>
-                <p><strong>Duration:</strong> {getSessionDuration(selectedSession.start_time, selectedSession.end_time)}</p>
+                <p><strong>Ende:</strong> {formatDate(selectedSession.end_time)}</p>
+                <p><strong>Dauer:</strong> {getSessionDuration(selectedSession.start_time, selectedSession.end_time)}</p>
               </div>
 
-              <h3>Checkpoint Scans</h3>
+              <h3>Kontrollpunkt Scans</h3>
               <div className="scans-list">
                 {selectedSession.scanDetails.map(scan => (
                   <div key={scan.id} className={`scan-item ${scan.status}`}>
@@ -245,7 +245,7 @@ function Dashboard() {
                     <p className="scan-time">{formatDate(scan.timestamp)}</p>
                     {scan.note && (
                       <div className="scan-note">
-                        <strong>Note:</strong> {scan.note}
+                        <strong>Notiz:</strong> {scan.note}
                       </div>
                     )}
                   </div>
@@ -253,7 +253,7 @@ function Dashboard() {
               </div>
 
               <div className="checkpoint-grid">
-                <h4>Checkpoint Overview</h4>
+                <h4>Kontrollpunkt Übersicht</h4>
                 <div className="checkpoints">
                   {[...Array(15)].map((_, i) => {
                     const checkpoint = selectedSession.scanDetails.find(
