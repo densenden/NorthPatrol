@@ -11,18 +11,18 @@ function Login() {
           className="logo"
         />
         <h1>NorthPatrol Admin</h1>
-        <p className="subtitle">Administration Dashboard</p>
+        <p className="subtitle">Verwaltungs-Dashboard</p>
         
         <div className="login-button-container">
           <SignInButton mode="modal">
             <button className="login-button">
-              Admin Sign In
+              Admin Anmeldung
             </button>
           </SignInButton>
         </div>
         
         <p className="login-footer">
-          Admin Access Only • Powered by StudioSen
+          Nur für Administratoren • Entwickelt von StudioSen
         </p>
       </div>
     </div>
