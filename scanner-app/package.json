@@ -1,5 +1,5 @@
 {
-  "name": "admin-dashboard",
+  "name": "northpatrol-scanner",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -12,6 +12,8 @@
   "dependencies": {
     "@clerk/clerk-react": "^5.46.0",
     "@supabase/supabase-js": "^2.57.0",
+    "@yudiel/react-qr-scanner": "^2.3.1",
+    "qrcode": "^1.5.4",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "react-router-dom": "^7.8.2"

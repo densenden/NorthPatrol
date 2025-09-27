@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>North Patrol - All QR Codes</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: #f5f5f5;
+            padding: 2rem;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+        
+        .subtitle {
+            color: #666;
+            font-size: 1.1rem;
+        }
+        
+        .qr-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .qr-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .qr-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+        }
+        
+        .qr-number {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #000;
+            margin-bottom: 0.5rem;
+        }
+        
+        .qr-code {
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 1rem;
+            padding: 0.5rem;
+            background: #f8f8f8;
+            border-radius: 6px;
+        }
+        
+        .qr-image {
+            width: 200px;
+            height: 200px;
+            margin: 0 auto;
+            display: block;
+            image-rendering: crisp-edges;
+            image-rendering: pixelated;
+        }
+        
+        .print-info {
+            text-align: center;
+            margin: 3rem 0 1rem;
+            padding: 1rem;
+            background: #fff3cd;
+            border: 1px solid #ffc107;
+            border-radius: 8px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .print-info h2 {
+            color: #856404;
+            margin-bottom: 0.5rem;
+        }
+        
+        .print-info p {
+            color: #856404;
+        }
+        
+        @media print {
+            body {
+                padding: 0;
+                background: white;
+            }
+            
+            .header {
+                page-break-after: avoid;
+            }
+            
+            .print-info {
+                display: none;
+            }
+            
+            .qr-grid {
+                grid-template-columns: repeat(4, 1fr);
+                gap: 1rem;
+            }
+            
+            .qr-card {
+                page-break-inside: avoid;
+                box-shadow: none;
+                border: 1px solid #ddd;
+            }
+            
+            .qr-card:hover {
+                transform: none;
+                box-shadow: none;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .qr-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>North Patrol QR Codes</h1>
+        <p class="subtitle">All 20 Checkpoint QR Codes</p>
+    </div>
+    
+    <div class="print-info">
+        <h2>📱 Print Instructions</h2>
+        <p>Use your browser's print function (Ctrl+P or Cmd+P) to print these QR codes. They are optimized for A4/Letter paper.</p>
+    </div>
+    
+    <div class="qr-grid">
+        <div class="qr-card">
+            <div class="qr-number">Checkpoint 1</div>
+            <div class="qr-code">np-cp-01</div>
+            <img src="/qr-codes/np-cp-01.png" alt="QR Code for Checkpoint 1" class="qr-image">
+        </div>
+        
+        <div class="qr-card">
+            <div class="qr-number">Checkpoint 2</div>
+            <div class="qr-code">np-cp-02</div>
+            <img src="/qr-codes/np-cp-02.png" alt="QR Code for Checkpoint 2" class="qr-image">
+        </div>
+        
+        <div class="qr-card">
+            <div class="qr-number">Checkpoint 3</div>
+            <div class="qr-code">np-cp-03</div>
+            <img src="/qr-codes/np-cp-03.png" alt="QR Code for Checkpoint 3" class="qr-image">
+        </div>
+        
+        <div class="qr-card">
+            <div class="qr-number">Checkpoint 4</div>
+            <div class="qr-code">np-cp-04</div>
+            <img src="/qr-codes/np-cp-04.png" alt="QR Code for Checkpoint 4" class="qr-image">
+        </div>
+        
+        <div class="qr-card">
+            <div class="qr-number">Checkpoint 5</div>
+            <div class="qr-code">np-cp-05</div>
+            <img src="/qr-codes/np-cp-05.png" alt="QR Code for Checkpoint 5" class="qr-image">
+        </div>
+        
+        <div class="qr-card">
+            <div class="qr-number">Checkpoint 6</div>
+            <div class="qr-code">np-cp-06</div>
+            <img src="/qr-codes/np-cp-06.png" alt="QR Code for Checkpoint 6" class="qr-image">
+        </div>
+        
+        <div class="qr-card">
+            <div class="qr-number">Checkpoint 7</div>
+            <div class="qr-code">np-cp-07</div>
+            <img src="/qr-codes/np-cp-07.png" alt="QR Code for Checkpoint 7" class="qr-image">
+        </div>
+        
+        <div class="qr-card">
+            <div class="qr-number">Checkpoint 8</div>
+            <div class="qr-code">np-cp-08</div>
+            <img src="/qr-codes/np-cp-08.png" alt="QR Code for Checkpoint 8" class="qr-image">
+        </div>
+        
+        <div class="qr-card">
+            <div class="qr-number">Checkpoint 9</div>
+            <div class="qr-code">np-cp-09</div>
+            <img src="/qr-codes/np-cp-09.png" alt="QR Code for Checkpoint 9" class="qr-image">
+        </div>
+        
+        <div class="qr-card">
+            <div class="qr-number">Checkpoint 10</div>
+            <div class="qr-code">np-cp-10</div>
+            <img src="/qr-codes/np-cp-10.png" alt="QR Code for Checkpoint 10" class="qr-image">
+        </div>
+        
+        <div class="qr-card">
+            <div class="qr-number">Checkpoint 11</div>
+            <div class="qr-code">np-cp-11</div>
+            <img src="/qr-codes/np-cp-11.png" alt="QR Code for Checkpoint 11" class="qr-image">
+        </div>
+        
+        <div class="qr-card">
+            <div class="qr-number">Checkpoint 12</div>
+            <div class="qr-code">np-cp-12</div>
+            <img src="/qr-codes/np-cp-12.png" alt="QR Code for Checkpoint 12" class="qr-image">
+        </div>
+        
+        <div class="qr-card">
+            <div class="qr-number">Checkpoint 13</div>
+            <div class="qr-code">np-cp-13</div>
+            <img src="/qr-codes/np-cp-13.png" alt="QR Code for Checkpoint 13" class="qr-image">
+        </div>
+        
+        <div class="qr-card">
+            <div class="qr-number">Checkpoint 14</div>
+            <div class="qr-code">np-cp-14</div>
+            <img src="/qr-codes/np-cp-14.png" alt="QR Code for Checkpoint 14" class="qr-image">
+        </div>
+        
+        <div class="qr-card">
+            <div class="qr-number">Checkpoint 15</div>
+            <div class="qr-code">np-cp-15</div>
+            <img src="/qr-codes/np-cp-15.png" alt="QR Code for Checkpoint 15" class="qr-image">
+        </div>
+        
+        <div class="qr-card">
+            <div class="qr-number">Checkpoint 16</div>
+            <div class="qr-code">np-cp-16</div>
+            <img src="/qr-codes/np-cp-16.png" alt="QR Code for Checkpoint 16" class="qr-image">
+        </div>
+        
+        <div class="qr-card">
+            <div class="qr-number">Checkpoint 17</div>
+            <div class="qr-code">np-cp-17</div>
+            <img src="/qr-codes/np-cp-17.png" alt="QR Code for Checkpoint 17" class="qr-image">
+        </div>
+        
+        <div class="qr-card">
+            <div class="qr-number">Checkpoint 18</div>
+            <div class="qr-code">np-cp-18</div>
+            <img src="/qr-codes/np-cp-18.png" alt="QR Code for Checkpoint 18" class="qr-image">
+        </div>
+        
+        <div class="qr-card">
+            <div class="qr-number">Checkpoint 19</div>
+            <div class="qr-code">np-cp-19</div>
+            <img src="/qr-codes/np-cp-19.png" alt="QR Code for Checkpoint 19" class="qr-image">
+        </div>
+        
+        <div class="qr-card">
+            <div class="qr-number">Checkpoint 20</div>
+            <div class="qr-code">np-cp-20</div>
+            <img src="/qr-codes/np-cp-20.png" alt="QR Code for Checkpoint 20" class="qr-image">
+        </div>
+    </div>
+</body>
+</html>
