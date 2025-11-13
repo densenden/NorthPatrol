@@ -107,7 +107,7 @@ function QRCodes() {
               <strong>Aufkleber-Format:</strong> A7 (105 × 74 mm)
             </div>
             <div className="format-item">
-              <strong>QR-Code Größe:</strong> 40 × 40 mm
+              <strong>QR-Code Größe:</strong> 25 × 25 mm
             </div>
             <div className="format-item">
               <strong>Rand:</strong> 0 mm (randlos)

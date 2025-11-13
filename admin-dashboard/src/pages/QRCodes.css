@@ -247,8 +247,8 @@
 }
 
 .pdf-qr-image {
-  width: 40mm;
-  height: 40mm;
+  width: 25mm;
+  height: 25mm;
   display: block;
   margin: 0 auto 3mm;
   image-rendering: crisp-edges;
