@@ -21,7 +21,16 @@
   margin-bottom: 1.5rem;
 }
 
-.back-button {
+.button-group {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.back-button,
+.export-pdf-button {
   background: #333;
   color: white;
   border: none;
@@ -30,30 +39,101 @@
   font-size: 1rem;
   cursor: pointer;
   transition: background 0.2s;
+  font-family: Inter, system-ui, sans-serif;
+}
+
+.export-pdf-button {
+  background: #0066cc;
 }
 
 .back-button:hover {
   background: #555;
 }
 
-.print-info {
-  text-align: center;
-  margin: 3rem auto 2rem;
-  padding: 1rem;
-  background: #fff3cd;
-  border: 1px solid #ffc107;
-  border-radius: 8px;
+.export-pdf-button:hover:not(:disabled) {
+  background: #0052a3;
+}
+
+.export-pdf-button:disabled {
+  background: #999;
+  cursor: not-allowed;
+}
+
+/* Format Information Section */
+.format-info {
   max-width: 800px;
+  margin: 0 auto 2rem;
+  background: white;
+  border: 2px solid #0066cc;
+  border-radius: 8px;
+  padding: 1.5rem;
 }
 
-.print-info h2 {
-  color: #856404;
+.format-info h3 {
+  color: #0066cc;
+  margin-top: 0;
+  margin-bottom: 1rem;
+  font-size: 1.3rem;
+  text-align: center;
+}
+
+.format-details {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.format-item {
+  background: #f8f8f8;
+  padding: 0.75rem;
+  border-radius: 6px;
+  font-size: 0.95rem;
+}
+
+.format-item strong {
+  color: #333;
+  display: block;
+  margin-bottom: 0.25rem;
+}
+
+/* Instructions Section */
+.instructions {
+  max-width: 800px;
+  margin: 0 auto 3rem;
+  background: white;
+  border: 2px solid #28a745;
+  border-radius: 8px;
+  padding: 1.5rem;
+}
+
+.instructions h3 {
+  color: #28a745;
+  margin-top: 0;
+  margin-bottom: 1rem;
+  font-size: 1.3rem;
+  text-align: center;
+}
+
+.instructions ol {
+  text-align: left;
+  padding-left: 1.5rem;
+  line-height: 1.8;
+}
+
+.instructions li {
   margin-bottom: 0.5rem;
+  color: #333;
 }
 
-.print-info p {
-  color: #856404;
-  margin: 0;
+/* Preview Section */
+.preview-section {
+  margin-top: 3rem;
+}
+
+.preview-section h2 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 2rem;
 }
 
 .qr-grid {
@@ -113,50 +193,105 @@
   color: #666;
 }
 
-@media print {
-  body {
-    padding: 0;
-    background: white;
-  }
-  
-  .qr-header {
-    page-break-after: avoid;
-  }
-  
-  .print-info {
-    display: none;
-  }
-  
-  .back-button {
-    display: none;
-  }
-  
-  .qr-grid {
-    grid-template-columns: repeat(4, 1fr);
-    gap: 1rem;
-  }
-  
-  .qr-card {
-    page-break-inside: avoid;
-    box-shadow: none;
-    border: 1px solid #ddd;
-  }
-  
-  .qr-card:hover {
-    transform: none;
-    box-shadow: none;
-  }
+/* PDF Content - Hidden on screen, used for PDF generation */
+.pdf-content {
+  position: fixed;
+  left: -9999px;
+  top: 0;
+  opacity: 0;
+  pointer-events: none;
 }
 
+.pdf-page {
+  width: 210mm;
+  height: 297mm;
+  background: white;
+  position: relative;
+  page-break-after: always;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(2, 105mm);
+  grid-template-rows: repeat(4, 74.25mm);
+  gap: 0;
+}
+
+.pdf-label-section {
+  width: 105mm;
+  height: 74.25mm;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  border-right: 1px dashed #999;
+  border-bottom: 1px dashed #999;
+}
+
+/* Remove right border for right column */
+.pdf-label-section:nth-child(2n) {
+  border-right: none;
+}
+
+/* Remove bottom border for last row */
+.pdf-label-section:nth-last-child(-n+2) {
+  border-bottom: none;
+}
+
+.pdf-qr-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.pdf-qr-image {
+  width: 40mm;
+  height: 40mm;
+  display: block;
+  margin: 0 auto 3mm;
+  image-rendering: crisp-edges;
+  image-rendering: pixelated;
+}
+
+.pdf-label-text {
+  font-size: 14pt;
+  font-weight: bold;
+  color: #000;
+  text-align: center;
+  margin-bottom: 2mm;
+  font-family: Inter, Arial, sans-serif;
+}
+
+.pdf-label-code {
+  font-size: 11pt;
+  font-family: 'Courier New', monospace;
+  color: #333;
+  text-align: center;
+  background: #f0f0f0;
+  padding: 2mm 5mm;
+  border-radius: 3mm;
+}
+
+/* Mobile Responsive */
 @media (max-width: 768px) {
   .qr-container {
     padding: 1rem;
   }
-  
+
   .qr-header h1 {
     font-size: 2rem;
   }
-  
+
+  .button-group {
+    flex-direction: column;
+  }
+
+  .format-details {
+    grid-template-columns: 1fr;
+  }
+
   .qr-grid {
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     gap: 1rem;

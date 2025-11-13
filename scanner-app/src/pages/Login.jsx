@@ -11,18 +11,18 @@ function Login() {
           className="logo"
         />
         <h1>NorthPatrol</h1>
-        <p className="subtitle">Security Checkpoint System</p>
+        <p className="subtitle">Sicherheits-Kontrollpunkt System</p>
         
         <div className="login-button-container">
           <SignInButton mode="modal">
             <button className="login-button">
-              Sign in with Email
+              Mit E-Mail anmelden
             </button>
           </SignInButton>
         </div>
         
         <p className="login-footer">
-          Powered by StudioSen
+          Entwickelt von StudioSen
         </p>
       </div>
     </div>
