@@ -16,6 +16,8 @@ function Dashboard() {
     sessionsWithIssues: 0,
     totalCheckpoints: 0
   })
+  const [sendingEmail, setSendingEmail] = useState(false)
+  const [emailStatus, setEmailStatus] = useState(null)
 
   useEffect(() => {
     registerAdminUser()
@@ -81,6 +83,7 @@ function Dashboard() {
   }
 
   const loadSessionDetails = async (sessionId) => {
+    setEmailStatus(null)
     try {
       const { data, error } = await supabase
         .from('scans')
@@ -92,7 +95,7 @@ function Dashboard() {
         .order('timestamp')
 
       if (error) throw error
-      
+
       const session = sessions.find(s => s.id === sessionId)
       setSelectedSession({
         ...session,
@@ -116,6 +119,33 @@ function Dashboard() {
     return `${minutes}m ${seconds}s`
   }
 
+  const sendEmail = async (sessionId) => {
+    setSendingEmail(true)
+    setEmailStatus(null)
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/send-patrol-email`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`
+          },
+          body: JSON.stringify({ sessionId })
+        }
+      )
+      const result = await response.json()
+      if (!response.ok) {
+        setEmailStatus({ type: 'error', message: 'Fehler: ' + (result.error || 'Unbekannt') })
+      } else {
+        setEmailStatus({ type: 'success', message: 'E-Mail erfolgreich gesendet!' })
+      }
+    } catch (error) {
+      setEmailStatus({ type: 'error', message: 'Fehler: ' + error.message })
+    }
+    setSendingEmail(false)
+  }
+
   return (
     <div className="dashboard-container">
       <header className="dashboard-header">
@@ -125,11 +155,18 @@ function Dashboard() {
             <h1>NorthPatrol Admin</h1>
           </div>
           <div className="user-controls">
-            <button 
-              className="qr-btn" 
+            <button
+              className="qr-btn"
               onClick={() => navigate('/qr')}
             >
               QR-Codes
+            </button>
+            <button
+              className="qr-btn"
+              onClick={() => navigate('/settings')}
+              style={{ background: '#5B74A6' }}
+            >
+              Einstellungen
             </button>
             <span className="user-email">{user?.primaryEmailAddress?.emailAddress}</span>
             <SignOutButton>
@@ -222,59 +259,50 @@ function Dashboard() {
                 <h2>Session Details</h2>
                 <button className="close-btn" onClick={() => setSelectedSession(null)}>×</button>
               </div>
-              
-              <div className="session-info">
-                <p><strong>Benutzer:</strong> {selectedSession.users?.email}</p>
-                <p><strong>Start:</strong> {formatDate(selectedSession.start_time)}</p>
-                <p><strong>Ende:</strong> {formatDate(selectedSession.end_time)}</p>
-                <p><strong>Dauer:</strong> {getSessionDuration(selectedSession.start_time, selectedSession.end_time)}</p>
-              </div>
 
-              <h3>Kontrollpunkt Scans</h3>
-              <div className="scans-list">
-                {selectedSession.scanDetails.map(scan => (
-                  <div key={scan.id} className={`scan-item ${scan.status}`}>
-                    <div className="scan-header">
-                      <span className="checkpoint-name">
-                        {scan.checkpoints?.name || `Checkpoint ${scan.checkpoints?.order}`}
-                      </span>
-                      <span className={`scan-status ${scan.status}`}>
-                        {scan.status === 'ok' ? '✓ OK' : '✗ Not OK'}
-                      </span>
+              <div className="modal-body">
+                <div className="session-info">
+                  <p><strong>Benutzer:</strong> {selectedSession.users?.email}</p>
+                  <p><strong>Start:</strong> {formatDate(selectedSession.start_time)}</p>
+                  <p><strong>Ende:</strong> {formatDate(selectedSession.end_time)}</p>
+                  <p><strong>Dauer:</strong> {getSessionDuration(selectedSession.start_time, selectedSession.end_time)}</p>
+                </div>
+
+                <h3 className="scans-title">Kontrollpunkt Scans</h3>
+                <div className="scans-list">
+                  {selectedSession.scanDetails.map(scan => (
+                    <div key={scan.id} className={`scan-item ${scan.status}`}>
+                      <div className="scan-header">
+                        <span className="checkpoint-name">
+                          {scan.checkpoints?.name || `Checkpoint ${scan.checkpoints?.order}`}
+                        </span>
+                        <span className={`scan-status ${scan.status}`}>
+                          {scan.status === 'ok' ? '✓ OK' : '✗ Not OK'}
+                        </span>
+                      </div>
+                      <p className="scan-time">{formatDate(scan.timestamp)}</p>
+                      {scan.note && (
+                        <div className="scan-note">
+                          <strong>Notiz:</strong> {scan.note}
+                        </div>
+                      )}
                     </div>
-                    <p className="scan-time">{formatDate(scan.timestamp)}</p>
-                    {scan.note && (
-                      <div className="scan-note">
-                        <strong>Notiz:</strong> {scan.note}
-                      </div>
-                    )}
-                  </div>
-                ))}
-              </div>
+                  ))}
+                </div>
 
-              <div className="checkpoint-grid">
-                <h4>Kontrollpunkt Übersicht</h4>
-                <div className="checkpoints">
-                  {[...Array(15)].map((_, i) => {
-                    const checkpoint = selectedSession.scanDetails.find(
-                      s => s.checkpoints?.order === i + 1
-                    )
-                    return (
-                      <div 
-                        key={i}
-                        className={`checkpoint-box ${
-                          checkpoint 
-                            ? checkpoint.status === 'ok' 
-                              ? 'scanned-ok' 
-                              : 'scanned-not-ok'
-                            : 'not-scanned'
-                        }`}
-                        title={`Checkpoint ${i + 1}`}
-                      >
-                        {i + 1}
-                      </div>
-                    )
-                  })}
+                <div className="modal-actions">
+                  {emailStatus && (
+                    <div className={`email-status ${emailStatus.type}`}>
+                      {emailStatus.message}
+                    </div>
+                  )}
+                  <button
+                    className="send-email-btn"
+                    onClick={() => sendEmail(selectedSession.id)}
+                    disabled={sendingEmail}
+                  >
+                    {sendingEmail ? 'Sende...' : 'E-Mail senden'}
+                  </button>
                 </div>
               </div>
             </div>

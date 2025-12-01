@@ -14,43 +14,13 @@ function ScannerPage() {
   const [note, setNote] = useState('')
   const [checkpoints, setCheckpoints] = useState([])
   const [scannedCheckpoints, setScannedCheckpoints] = useState([])
+  const [patrolComplete, setPatrolComplete] = useState(false)
 
   useEffect(() => {
-    initializeSession()
+    // Nur Checkpoints laden, KEINE Session erstellen
+    // Session wird erst beim ersten Scan erstellt (lazy initialization)
     loadCheckpoints()
   }, [])
-
-  const initializeSession = async () => {
-    try {
-      // First, ensure user exists in database
-      const { data: userData, error: userError } = await supabase
-        .from('users')
-        .upsert({ 
-          email: user.primaryEmailAddress.emailAddress,
-          role: 'scanner'
-        }, { onConflict: 'email' })
-        .select()
-        .single()
-
-      if (userError) throw userError
-
-      // Create new session
-      const { data: session, error: sessionError } = await supabase
-        .from('sessions')
-        .insert({
-          user_id: userData.id,
-          complete: false,
-          has_notes: false
-        })
-        .select()
-        .single()
-
-      if (sessionError) throw sessionError
-      setSessionId(session.id)
-    } catch (error) {
-      console.error('Error initializing session:', error)
-    }
-  }
 
   const loadCheckpoints = async () => {
     try {
@@ -67,7 +37,7 @@ function ScannerPage() {
   }
 
   const handleScan = async (result) => {
-    if (!result || !sessionId) return
+    if (!result) return
     
     const scannedQR = result[0].rawValue
     
@@ -106,19 +76,42 @@ function ScannerPage() {
   const saveScan = async (status, scanNote) => {
     try {
       const checkpoint = checkpoints[currentCheckpoint - 1]
-      
-      // Get user ID
-      const { data: userData } = await supabase
+
+      // Get or create user
+      const { data: userData, error: userError } = await supabase
         .from('users')
-        .select('id')
-        .eq('email', user.primaryEmailAddress.emailAddress)
+        .upsert({
+          email: user.primaryEmailAddress.emailAddress,
+          role: 'scanner'
+        }, { onConflict: 'email' })
+        .select()
         .single()
+
+      if (userError) throw userError
+
+      // Lazy Session-Erstellung: Erst beim ersten Scan eine Session erstellen
+      let currentSessionId = sessionId
+      if (!currentSessionId) {
+        const { data: session, error: sessionError } = await supabase
+          .from('sessions')
+          .insert({
+            user_id: userData.id,
+            complete: false,
+            has_notes: false
+          })
+          .select()
+          .single()
+
+        if (sessionError) throw sessionError
+        currentSessionId = session.id
+        setSessionId(session.id)
+      }
 
       // Save scan
       const { error } = await supabase
         .from('scans')
         .insert({
-          session_id: sessionId,
+          session_id: currentSessionId,
           user_id: userData.id,
           checkpoint_id: checkpoint.id,
           status,
@@ -166,15 +159,43 @@ function ScannerPage() {
         })
         .eq('id', sessionId)
 
-      alert('Patrouille erfolgreich abgeschlossen!')
-      // Reset for new session
-      setCurrentCheckpoint(1)
-      setScannedCheckpoints([])
-      setLastScan(null)
-      initializeSession()
+      // Send patrol completion email
+      try {
+        const response = await fetch(
+          `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/send-patrol-email`,
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`
+            },
+            body: JSON.stringify({ sessionId })
+          }
+        )
+        const result = await response.json()
+        if (!response.ok) {
+          console.error('Email sending failed:', result)
+        } else {
+          console.log('Email sent successfully:', result)
+        }
+      } catch (emailError) {
+        console.error('Error sending email:', emailError)
+      }
+
+      // Zeige "Fertig" Ansicht - KEINE automatische neue Session erstellen
+      setPatrolComplete(true)
     } catch (error) {
       console.error('Error completing session:', error)
     }
+  }
+
+  const startNewPatrol = () => {
+    // Manueller Start eines neuen Kontrollgangs
+    setCurrentCheckpoint(1)
+    setScannedCheckpoints([])
+    setLastScan(null)
+    setSessionId(null)
+    setPatrolComplete(false)
   }
 
   return (
@@ -188,7 +209,20 @@ function ScannerPage() {
 
       {/* Main Content Area */}
       <div className="scanner-main">
-        {scanning ? (
+        {patrolComplete ? (
+          <div className="action-area">
+            <div className="patrol-complete">
+              <h2>Patrouille abgeschlossen!</h2>
+              <p>Alle 15 Kontrollpunkte wurden erfolgreich gescannt.</p>
+              <button
+                className="scan-button"
+                onClick={startNewPatrol}
+              >
+                Neuen Kontrollgang starten
+              </button>
+            </div>
+          </div>
+        ) : scanning ? (
           <div className="scanner-box">
             <Scanner
               onScan={handleScan}

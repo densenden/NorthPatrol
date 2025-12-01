@@ -1,12 +1,12 @@
 /* Dark mode high contrast theme matching scanner */
 .dashboard-container {
   min-height: 100vh;
+  min-width: 100vw;
   background: #000;
   color: #fff;
   display: flex;
   flex-direction: column;
   position: relative;
-  overflow: hidden;
 }
 
 /* Fixed Header */
@@ -284,11 +284,20 @@
 }
 
 .modal-body {
-  padding: 2rem;
+  padding: 1.5rem 2rem 2rem;
 }
 
 .session-info {
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  background: #1a1a1a;
+  border-radius: 8px;
+}
+
+.scans-title {
+  margin: 0 0 1rem;
+  font-size: 1.1rem;
+  color: #fff;
 }
 
 .session-info p {
@@ -356,6 +365,55 @@
 .scan-time {
   color: #666;
   font-size: 0.85rem;
+}
+
+/* Modal Actions */
+.modal-actions {
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #333;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.send-email-btn {
+  background: #5B74A6;
+  color: #fff;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.send-email-btn:hover:not(:disabled) {
+  background: #4a6391;
+}
+
+.send-email-btn:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+.email-status {
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-size: 0.9rem;
+}
+
+.email-status.success {
+  background: #1a3a1a;
+  color: #4CAF50;
+  border: 1px solid #4CAF50;
+}
+
+.email-status.error {
+  background: #3a1a1a;
+  color: #ff3333;
+  border: 1px solid #ff3333;
 }
 
 /* Checkpoint Progress */
@@ -442,38 +500,111 @@
   .header-left {
     gap: 8px;
   }
-  
+
   .header-logo {
     width: 30px;
     height: 30px;
   }
-  
+
   .dashboard-header h1 {
     font-size: 1rem;
   }
-  
+
   .user-email {
     display: none;
   }
-  
+
+  .user-controls {
+    gap: 0.5rem;
+  }
+
+  .qr-btn {
+    padding: 0.4rem 0.75rem;
+    font-size: 0.8rem;
+  }
+
+  .dashboard-content {
+    padding: 80px 12px 40px;
+  }
+
   .stats-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
   }
-  
+
+  .stat-card {
+    padding: 1rem;
+  }
+
+  .stat-card h3 {
+    font-size: 0.75rem;
+  }
+
+  .stat-value {
+    font-size: 1.5rem;
+  }
+
+  .sessions-section h2 {
+    padding: 1rem;
+    font-size: 1rem;
+  }
+
   .sessions-table {
-    font-size: 0.85rem;
+    font-size: 0.8rem;
   }
-  
+
   .sessions-table th,
   .sessions-table td {
-    padding: 0.75rem 0.5rem;
+    padding: 0.5rem 0.25rem;
   }
-  
-  .checkpoint-grid {
-    grid-template-columns: repeat(5, 1fr);
+
+  .view-btn {
+    padding: 0.4rem 0.6rem;
+    font-size: 0.75rem;
   }
-  
-  .checkpoint-box {
-    font-size: 0.9rem;
+
+  .modal-content {
+    max-height: 90vh;
+    margin: 10px;
+    border-radius: 8px;
+  }
+
+  .modal-header {
+    padding: 1rem;
+  }
+
+  .modal-header h2 {
+    font-size: 1.2rem;
+  }
+
+  .modal-body {
+    padding: 1rem;
+  }
+
+  .modal-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .send-email-btn {
+    width: 100%;
+    text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .dashboard-header h1 {
+    display: none;
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .sessions-table th:nth-child(3),
+  .sessions-table td:nth-child(3),
+  .sessions-table th:nth-child(4),
+  .sessions-table td:nth-child(4) {
+    display: none;
   }
 }

@@ -3,6 +3,7 @@ import { SignedIn, SignedOut, useUser } from '@clerk/clerk-react'
 import Login from './pages/Login'
 import Dashboard from './pages/Dashboard'
 import QRCodes from './pages/QRCodes'
+import Settings from './pages/Settings'
 import './App.css'
 
 function App() {
@@ -13,11 +14,12 @@ function App() {
       <SignedOut>
         <Login />
       </SignedOut>
-      
+
       <SignedIn>
         <Routes>
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/qr" element={<QRCodes />} />
+          <Route path="/settings" element={<Settings />} />
           <Route path="/" element={<Navigate to="/dashboard" replace />} />
         </Routes>
       </SignedIn>
