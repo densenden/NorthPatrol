@@ -99,7 +99,7 @@ serve(async (req) => {
         "Authorization": `Bearer ${RESEND_API_KEY}`,
       },
       body: JSON.stringify({
-        from: "NorthPatrol <dev@sen.studio>",
+        from: "North Pro Services <dev@sen.studio>",
         to: [notificationEmail],
         subject: `NorthPatrol Bericht - ${formatDate(sessionData.end_time)}${sessionData.has_notes ? " ⚠️ mit Notizen" : ""}`,
         html: emailHtml,
